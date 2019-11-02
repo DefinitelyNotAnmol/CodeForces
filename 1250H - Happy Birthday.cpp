@@ -1,6 +1,16 @@
 #include <iostream>
 #include <limits>
 
+#define DEBUG_MODE 0
+
+#if DEBUG_MODE
+    #define print(x, y) std::cout << x << y << std::endl
+    #define newline std::cout << std::endl
+#else
+    #define print(x, y) 
+    #define newline
+#endif
+
 int minimumBirthday(int candles[]);
 
 int main() {
@@ -16,18 +26,31 @@ int main() {
     }
 }
 
-int minimumBirthday(int candles[]) {
+int minimumBirthday(int candles_input[]) {
     long long i = 1ll;
-    while (i < LONG_MAX) {
+    while (i < LONG_MAX and i > 0) {
         long long age = i;
-        int numbers[10] = { 0 };
-
         int r;
+        int candles[10];
+
+        for (int i = 0; i < 10; i++) 
+            candles[i] = candles_input[i];
+            
+        newline;
 
         while (age > 0) {
             r = age % 10;
             age /= 10;
-            numbers[r-1]++;
+            print(r, ", ");
+
+            if (candles[r] >= 1) 
+                candles[r]--;
+            else
+                return i;
         }
+
+        newline;
+
+        i++;
     }
 }
