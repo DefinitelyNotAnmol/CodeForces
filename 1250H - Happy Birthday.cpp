@@ -26,11 +26,18 @@ NumberCandle* makeCandleList() {
     NumberCandle *head = ptr;
     for (int i = 0; i < 10; i++) {
         ptr->next = new NumberCandle();
-        ptr->next->number = i+1;
         ptr = ptr->next;
+        ptr->number = i+1;
     }
 
     return head;
+}
+
+void print_list(NumberCandle *head) {
+    NumberCandle *ptr = head;
+    for (int i = 0; i < 10; i++, ptr = ptr->next) {
+        std::cout << ptr->quantity << " ";
+    }
 }
 
 long long minimumBirthday(NumberCandle *head);
@@ -67,10 +74,15 @@ long long minimumBirthday(NumberCandle *head) {
 
         for (; j < limit; j++) {
             for (int k = 1; k < 20; k++) {
-                if (places[k]->number == 9) {
+                print_list(head);
+                print(places[k]->next->number, " ");
+                if (places[k]->next->number == 9) {
                     places[k]->next->quantity++;
                     places[k]->next = head->next;
-                    places[k]->next->quantity--;
+                    if (places[k]->next->quantity > 0)
+                        places[k]->next->quantity--;
+                    else
+                        return j;
                     continue;
                 } else {
                     places[k]->next->quantity++;
@@ -78,7 +90,8 @@ long long minimumBirthday(NumberCandle *head) {
                     if (places[k]->next->quantity > 0)
                         places[k]->next->quantity--;
                     else
-                        return 
+                        return j;
+                    break;
                 }
             }
         }
