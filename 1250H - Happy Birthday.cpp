@@ -11,7 +11,7 @@
     #define newline
 #endif
 
-int minimumBirthday(int candles[]);
+long long minimumBirthday(int candles[]);
 
 int main() {
     int testCases;  std::cin >> testCases;
@@ -22,35 +22,33 @@ int main() {
             std::cin >> candles[j];
         }
 
-        std::cout << minimumBirthday(candles) << std::endl;
+        std::cout << minimumBirthday(candles) << "\n";
     }
 }
 
-int minimumBirthday(int candles_input[]) {
+long long minimumBirthday(int candles_input[]) {
     long long i = 1ll;
     while (i < LONG_MAX and i > 0) {
         long long age = i;
         int r;
         int candles[10];
 
-        for (int i = 0; i < 10; i++) 
+        for (int i = 0; i < 10; ++i) 
             candles[i] = candles_input[i];
             
         newline;
-
         while (age > 0) {
             r = age % 10;
             age /= 10;
             print(r, ", ");
 
-            if (candles[r] >= 1) 
-                candles[r]--;
-            else
+            if (candles[r]) 
                 return i;
+            else
+                --candles[r];
         }
 
         newline;
-
-        i++;
+        ++i;
     }
 }
