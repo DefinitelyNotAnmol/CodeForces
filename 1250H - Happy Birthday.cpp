@@ -1,5 +1,7 @@
 #include <iostream>
 #include <limits>
+#include <vector>
+#include <cmath>
 
 #define DEBUG_MODE 0
 
@@ -11,44 +13,47 @@
     #define newline
 #endif
 
-long long minimumBirthday(int candles[]);
+struct NumberCandle {
+    int quantity;
+    int decimalPlace;
+    NumberCandle *next;
+};
+
+NumberCandle* makeCandleList() {
+    NumberCandle *ptr = new NumberCandle;
+    NumberCandle *head = ptr;
+    for (int i = 0; i < 10; i++) {
+        ptr->next = new NumberCandle();
+        ptr = ptr->next;
+    }
+
+    return head;
+}
+
+long long minimumBirthday(NumberCandle *head);
 
 int main() {
     int testCases;  std::cin >> testCases;
 
+    NumberCandle *head = makeCandleList();
+
     for (int i = 0; i < testCases; ++i) {
-        int candles[10];
-        for (int j = 0; j < 10; ++j) {
-            std::cin >> candles[j];
+        NumberCandle *ptr = head;
+        for (int j = 0; j < 10; ptr = ptr->next, ++j) {
+            std::cin >> ptr->quantity;
         }
 
-        std::cout << minimumBirthday(candles) << "\n";
+        std::cout << minimumBirthday(head) << "\n";
     }
 }
 
-long long minimumBirthday(int candles_input[]) {
-    long long i = 1ll;
-    while (i < LONG_MAX and i > 0) {
-        long long age = i;
-        int r;
-        int candles[10];
+long long minimumBirthday(NumberCandle *head) {
+    long long j = 0;
+    for (int i = 1; i < 20; i++) {
+        long long limit = std::pow(10, i);
+        
+        for (; j < limit; j++) {
 
-        for (int i = 0; i < 10; ++i) 
-            candles[i] = candles_input[i];
-            
-        newline;
-        while (age > 0) {
-            r = age % 10;
-            age /= 10;
-            print(r, ", ");
-
-            if (candles[r]) 
-                return i;
-            else
-                --candles[r];
         }
-
-        newline;
-        ++i;
     }
 }
